@@ -48,7 +48,7 @@ export const StepSetup: React.FC<StepSetupProps> = ({ initialValues, onNext }) =
       if (rangeMatch) {
         const start = parseInt(rangeMatch[1], 10);
         const end = parseInt(rangeMatch[2], 10);
-        
+
         if (!isNaN(start) && !isNaN(end) && start <= end) {
           if (end - start > 1000) return; // safety limit
           for (let i = start; i <= end; i++) {
@@ -64,7 +64,7 @@ export const StepSetup: React.FC<StepSetupProps> = ({ initialValues, onNext }) =
         // Split by comma, respecting that name might have spaces
         const parts = trimmed.split(',').map(p => p.trim());
         const id = parts[0];
-        
+
         if (id && !seenIds.has(id)) {
           students.push({
             id,
@@ -104,14 +104,15 @@ export const StepSetup: React.FC<StepSetupProps> = ({ initialValues, onNext }) =
               // Ensure we don't output undefined
               return `${s.id}, ${s.name || ''}, ${s.phone || ''}`;
             }).join('\n');
-            
+
             // Append to existing text
             setInputText(prev => prev ? `${prev}\n${newCsv}` : newCsv);
           } else {
             setError("No student data found in the image.");
           }
         } catch (e) {
-          setError("Failed to extract data from image.");
+          console.error("Extraction error:", e);
+          setError(e instanceof Error ? e.message : "Failed to extract data from image.");
         } finally {
           setIsAnalyzing(false);
           if (fileInputRef.current) fileInputRef.current.value = '';
@@ -131,7 +132,7 @@ export const StepSetup: React.FC<StepSetupProps> = ({ initialValues, onNext }) =
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const parsedStudents = parseInputToStudents(inputText);
-    
+
     if (parsedStudents.length === 0) {
       setError("Please enter at least one roll number.");
       return;
@@ -160,19 +161,20 @@ export const StepSetup: React.FC<StepSetupProps> = ({ initialValues, onNext }) =
       <div className="mb-6 text-center">
         <h1 className="text-3xl font-bold text-slate-800 mb-2">Class List Setup</h1>
         <p className="text-slate-500 text-sm">Upload a master list (ID, Name, Phone) or enter manually.</p>
+        <p className="text-xs text-slate-300 mt-1">v1.2</p>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col h-[75vh] max-h-[650px]">
-        
+
         <div className="mb-4">
-          <input 
-            type="file" 
-            accept="image/*" 
+          <input
+            type="file"
+            accept="image/*"
             ref={fileInputRef}
             onChange={handleFileChange}
-            className="hidden" 
+            className="hidden"
           />
-          <button 
+          <button
             type="button"
             onClick={triggerFileInput}
             className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl border border-dashed border-slate-300 flex items-center justify-center gap-2 transition-colors"
@@ -193,7 +195,7 @@ export const StepSetup: React.FC<StepSetupProps> = ({ initialValues, onNext }) =
               Format: ID, Name, Phone
             </span>
           </div>
-          
+
           <textarea
             id="rollList"
             value={inputText}
@@ -201,11 +203,11 @@ export const StepSetup: React.FC<StepSetupProps> = ({ initialValues, onNext }) =
             placeholder={"23K4201, John Doe, 9876543210\n23K4202, Jane Smith, 9123456789\n1-60"}
             className="flex-1 w-full px-4 py-3 text-sm font-mono text-slate-700 rounded-xl border-2 border-slate-200 focus:border-indigo-500 focus:ring-0 outline-none transition-colors resize-none whitespace-pre"
           />
-          
+
           <div className="mt-2 flex justify-between items-center text-sm">
-             <span className={`${error ? 'text-red-500' : 'text-slate-500'}`}>
-               {error || (parsedCount > 0 ? `${parsedCount} students loaded` : 'No valid data yet')}
-             </span>
+            <span className={`${error ? 'text-red-500' : 'text-slate-500'}`}>
+              {error || (parsedCount > 0 ? `${parsedCount} students loaded` : 'No valid data yet')}
+            </span>
           </div>
         </div>
 
