@@ -1,20 +1,51 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# AbsenT - AI Attendance Calculator
 
-# Run and deploy your AI Studio app
+AbsenT is an intelligent tool designed to streamline the attendance process by digitizing handwritten attendance sheets using the power of Google Gemini AI.
 
-This contains everything you need to run your app locally.
+## 🚀 Features
 
-View your app in AI Studio: https://ai.studio/apps/drive/16bThl4oRPIYtc4RvckPyqXhWxxBa3VE3
+- **Class Setup**: Easily import or manually input student lists to set up your class.
+- **AI Capture**: Upload photos of handwritten attendance sheets. The app uses Google Gemini to automatically detect and extract roll numbers.
+- **Verification**: Verify the extracted data against your class list to ensure accuracy.
+- **Results**: Generate instant reports of presentees and absentees.
 
-## Run Locally
+## 🛠️ Tech Stack
 
-**Prerequisites:**  Node.js
+- **Frontend**: React, Vite
+- **Styling**: TailwindCSS
+- **AI**: Google Gemini API
+- **Deployment**: GitHub Pages
 
+## 🏃‍♂️ Run Locally
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd AbsenT
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   Create a `.env.local` file in the root directory and add your Gemini API key:
+   ```env
+   VITE_GEMINI_API_KEY=your_api_key_here
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+## 🚀 Deployment
+
+To deploy the application to GitHub Pages:
+
+```bash
+npm run deploy
+```
+
+This command builds the project and pushes it to the `gh-pages` branch.
