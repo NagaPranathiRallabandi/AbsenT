@@ -1,0 +1,7 @@
+{
+  "name": "AbsenT",
+  "description": "A smart attendance assistant that calculates absentees by scanning photos of presentee lists using AI.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
